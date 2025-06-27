@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Project } from '../../types';
 import { MapPinIcon, CalendarDaysIcon, BedIcon } from '../IconPack';
@@ -36,7 +35,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onProjectSelect }) =
         <h3 className="text-2xl font-bold text-white">{project.name}</h3>
         <div className="flex items-center gap-2 text-gray-400 mt-1">
           <MapPinIcon />
-          <span>{project.community}, {project.city}</span>
+          <span>{[project.community, project.city].filter(Boolean).join(', ')}</span>
         </div>
         
         <div className="my-4 text-gray-300">

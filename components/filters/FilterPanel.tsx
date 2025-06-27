@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Filters, Project } from '../../types';
 import { ChevronDownIcon } from '../IconPack';
 
@@ -10,60 +10,72 @@ interface FilterPanelProps {
 }
 
 const FilterGroup: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
-  <div className="py-4 border-b border-gray-800 last:border-b-0 md:border-b-0">
+  <div className="py-4 md:py-0">
     <h3 className="text-lg font-semibold text-white mb-3">{title}</h3>
     {children}
   </div>
 );
 
-const ToggleButton: React.FC<{
+const SelectInput: React.FC<{
+  id: string;
   label: string;
-  isActive: boolean;
-  onClick: () => void;
-}> = ({ label, isActive, onClick }) => (
-  <button
-    type="button"
-    onClick={onClick}
-    className={`px-4 py-2 text-sm rounded-full border transition-colors duration-200 ${
-      isActive
-        ? 'bg-[#b29a68] text-black border-[#b29a68]'
-        : 'bg-gray-800 text-gray-300 border-gray-700 hover:border-gray-500'
-    }`}
-  >
-    {label}
-  </button>
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  options: string[];
+  disabled?: boolean;
+}> = ({ id, label, value, onChange, options, disabled }) => (
+    <select
+      id={id}
+      value={value}
+      onChange={onChange}
+      disabled={disabled}
+      className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#b29a68] transition-shadow disabled:opacity-50 disabled:cursor-not-allowed"
+    >
+        <option value="">{label}</option>
+        {options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+    </select>
 );
 
 
 const FilterPanel: React.FC<FilterPanelProps> = ({ filters, setFilters, projectData }) => {
   const [isOpen, setIsOpen] = useState(true);
 
-  const handleMultiSelect = (field: keyof Filters, value: string) => {
+  const handleSelectChange = (field: keyof Filters, value: string) => {
     setFilters(prev => {
-      const currentValues = prev[field] as string[];
-      const newValues = currentValues.includes(value)
-        ? currentValues.filter(item => item !== value)
-        : [...currentValues, value];
-      return { ...prev, [field]: newValues };
+        const newFilters = { ...prev, [field]: value };
+        // When country changes, reset location
+        if (field === 'cities') {
+            newFilters.communities = '';
+        }
+        return newFilters;
     });
   };
   
-  const getUniqueValues = (key: keyof Project) => {
-      const valueSet = new Set<string>();
-      projectData.forEach(p => {
-          const value = p[key];
-          if (typeof value === 'string' && value.trim()) {
-              valueSet.add(value.trim());
-          }
-      });
-      return Array.from(valueSet).sort();
-  };
-
-  const options = {
-    countries: getUniqueValues('city'),
-    locations: getUniqueValues('community'),
-    handoverDates: getUniqueValues('handoverDate'),
-  };
+  const options = useMemo(() => {
+    const countries = Array.from(new Set(projectData.map(p => p.city).filter(Boolean))).sort();
+    
+    let locations: string[] = [];
+    if (filters.cities) {
+        const locationSet = new Set<string>();
+        projectData
+            .filter(p => p.city === filters.cities)
+            .forEach(p => {
+                if (p.community && p.community.trim()) {
+                    locationSet.add(p.community.trim());
+                }
+            });
+        locations = Array.from(locationSet).sort();
+        
+        const hasRestOfLocations = projectData.some(p => p.city === filters.cities && (!p.community || p.community.trim() === ''));
+        if (hasRestOfLocations) {
+            locations.push('Rest of locations');
+        }
+    }
+    
+    const handoverDates = Array.from(new Set(projectData.map(p => p.handoverDate).filter(Boolean))).sort();
+    
+    return { countries, locations, handoverDates };
+  }, [projectData, filters.cities]);
 
   return (
     <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl mb-12 shadow-lg border border-gray-800">
@@ -89,23 +101,36 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ filters, setFilters, projectD
         className={`transition-all duration-500 ease-in-out overflow-hidden ${isOpen ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}`}
       >
         <div className="p-6 border-t border-gray-800">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-6">
                 <FilterGroup title="Country">
-                  <div className="flex flex-wrap gap-2">
-                    {options.countries.map(opt => <ToggleButton key={opt} label={opt} isActive={filters.cities.includes(opt)} onClick={() => handleMultiSelect('cities', opt)} />)}
-                  </div>
+                  <SelectInput
+                    id="country-filter"
+                    label="All Countries"
+                    value={filters.cities}
+                    onChange={(e) => handleSelectChange('cities', e.target.value)}
+                    options={options.countries}
+                  />
                 </FilterGroup>
                 
                 <FilterGroup title="Location">
-                  <div className="flex flex-wrap gap-2">
-                    {options.locations.map(opt => <ToggleButton key={opt} label={opt} isActive={filters.communities.includes(opt)} onClick={() => handleMultiSelect('communities', opt)} />)}
-                  </div>
+                  <SelectInput
+                    id="location-filter"
+                    label="All Locations"
+                    value={filters.communities}
+                    onChange={(e) => handleSelectChange('communities', e.target.value)}
+                    options={options.locations}
+                    disabled={!filters.cities}
+                  />
                 </FilterGroup>
 
                 <FilterGroup title="Handover Date">
-                  <div className="flex flex-wrap gap-2">
-                    {options.handoverDates.map(opt => <ToggleButton key={opt} label={opt} isActive={filters.handoverDates.includes(opt)} onClick={() => handleMultiSelect('handoverDates', opt)} />)}
-                  </div>
+                   <SelectInput
+                    id="handover-filter"
+                    label="All Dates"
+                    value={filters.handoverDates}
+                    onChange={(e) => handleSelectChange('handoverDates', e.target.value)}
+                    options={options.handoverDates}
+                  />
                 </FilterGroup>
             </div>
         </div>

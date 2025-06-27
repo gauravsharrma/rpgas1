@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Project } from '../types';
-import { LocationPinIcon } from '../components/IconPack';
+import { MapPinIcon } from '../components/IconPack';
 
 export const projects: Project[] = [
   {
@@ -27,9 +27,9 @@ export const projects: Project[] = [
       refinedInteriors: 'Interiors are crafted with attention to detail, featuring open-plan living areas, modern kitchens, and elegant bathrooms. The design prioritizes natural light and a seamless connection to the outdoors.',
     },
     attractions: [
-      { time: '10 min', name: 'Dubai Outlet Mall', icon: React.createElement(LocationPinIcon) },
-      { time: '15 min', name: 'Academic City', icon: React.createElement(LocationPinIcon) },
-      { time: '20 min', name: 'Downtown Dubai', icon: React.createElement(LocationPinIcon) },
+      { time: '10 min', name: 'Dubai Outlet Mall', icon: React.createElement(MapPinIcon) },
+      { time: '15 min', name: 'Academic City', icon: React.createElement(MapPinIcon) },
+      { time: '20 min', name: 'Downtown Dubai', icon: React.createElement(MapPinIcon) },
     ],
     unitDetails: [
       { name: '4 Bedroom Villa', subtypes: ['Type A', 'Type B'], image: 'https://picsum.photos/seed/silvana-4bed/1200/800' },
@@ -59,13 +59,13 @@ export const projects: Project[] = [
         refinedInteriors: "Inside, the philosophy of functional luxury continues. Kitchens are designed to be the heart of the home, equipped with state-of-the-art appliances and elegant finishes. The en-suite bathrooms are private sanctuaries, featuring premium fixtures and spa-like atmospheres. Every material is chosen for its quality and durability, ensuring that your home is not only beautiful but also a lasting investment in quality living."
     },
     attractions: [
-        { time: '5 min', name: 'Al Barari', icon: React.createElement(LocationPinIcon) },
-        { time: '11 min', name: 'Global Village', icon: React.createElement(LocationPinIcon) },
-        { time: '17 min', name: 'IMG Worlds', icon: React.createElement(LocationPinIcon) },
-        { time: '20 min', name: 'Dubai Mall', icon: React.createElement(LocationPinIcon) },
-        { time: '20 min', name: 'Burj Khalifa', icon: React.createElement(LocationPinIcon) },
-        { time: '24 min', name: 'Mall of the Emirates', icon: React.createElement(LocationPinIcon) },
-        { time: '28 min', name: 'DXB Airport', icon: React.createElement(LocationPinIcon) },
+        { time: '5 min', name: 'Al Barari', icon: React.createElement(MapPinIcon) },
+        { time: '11 min', name: 'Global Village', icon: React.createElement(MapPinIcon) },
+        { time: '17 min', name: 'IMG Worlds', icon: React.createElement(MapPinIcon) },
+        { time: '20 min', name: 'Dubai Mall', icon: React.createElement(MapPinIcon) },
+        { time: '20 min', name: 'Burj Khalifa', icon: React.createElement(MapPinIcon) },
+        { time: '24 min', name: 'Mall of the Emirates', icon: React.createElement(MapPinIcon) },
+        { time: '28 min', name: 'DXB Airport', icon: React.createElement(MapPinIcon) },
     ],
     unitDetails: [
         { name: '3 Bedroom', subtypes: ['Type A', 'Type B'], image: 'https://picsum.photos/seed/3bed/1200/800' },

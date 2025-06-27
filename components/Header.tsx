@@ -20,7 +20,7 @@ const Header: React.FC = () => {
                 <div className="hidden md:block border-l border-gray-600 h-10"></div>
                 <div>
                     <p className="font-bold text-white">Bharti Sharma</p>
-                    <p className="text-xs text-gray-400">Your Premier Access to Dubai's Finest Homes.</p>
+                    <p className="text-xs text-gray-400">Your Premier Access to Finest Homes in UAE.</p>
                 </div>
             </div>
         </div>

@@ -29,15 +29,15 @@ export interface Project {
 export interface Filters {
   price: { min: number | string; max: number | string };
   unitTypes: string[];
-  cities: string[];
-  communities: string[];
+  cities: string;
+  communities: string;
   projects: string[];
   status: string[];
   paymentPlans: string[];
   amenities: string[];
   views: string[];
   offers: string[];
-  handoverDates: string[];
+  handoverDates: string;
 }
 
 export interface Attraction {

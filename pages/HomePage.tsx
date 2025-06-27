@@ -12,15 +12,15 @@ const HomePage: React.FC = () => {
   const [filters, setFilters] = useState<Filters>({
     price: { min: '', max: '' },
     unitTypes: [],
-    cities: [],
-    communities: [],
+    cities: '',
+    communities: '',
     projects: [],
     status: [],
     paymentPlans: [],
     amenities: [],
     views: [],
     offers: [],
-    handoverDates: [],
+    handoverDates: '',
   });
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const detailRef = useRef<HTMLDivElement>(null);
@@ -60,9 +60,14 @@ const HomePage: React.FC = () => {
     return allProjects.filter(p => {
       const { cities, communities, handoverDates } = filters;
       
-      const countryMatch = !cities.length || cities.includes(p.city);
-      const locationMatch = !communities.length || (p.community && communities.includes(p.community));
-      const handoverMatch = !handoverDates.length || (p.handoverDate && handoverDates.includes(p.handoverDate));
+      const countryMatch = !cities || p.city === cities;
+      
+      const locationMatch = !communities 
+        || (communities === 'Rest of locations' 
+            ? !p.community || p.community.trim() === '' 
+            : p.community === communities);
+
+      const handoverMatch = !handoverDates || p.handoverDate === handoverDates;
 
       return countryMatch && locationMatch && handoverMatch;
     });

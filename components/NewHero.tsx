@@ -64,3 +64,4 @@ export const NewHero: React.FC = () => {
     </section>
   );
 };
+ 

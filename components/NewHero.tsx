@@ -13,7 +13,7 @@ const LocationIcon: React.FC = () => (
 );
 
 
-const NewHero: React.FC = () => {
+export const NewHero: React.FC = () => {
   const heroStyle = {
     backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(https://picsum.photos/seed/dubai-skyline/1920/1080)`,
     backgroundSize: 'cover',
@@ -27,7 +27,7 @@ const NewHero: React.FC = () => {
       style={heroStyle}
     >
         <div className="max-w-4xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white uppercase tracking-tight leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white uppercase tracking-tight leading-tight">
               Zero commission, trusted guidance, no hassles — just a smart property move, delivered professionally.
             </h1>
             <p className="mt-6 text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
@@ -64,5 +64,3 @@ const NewHero: React.FC = () => {
     </section>
   );
 };
-
-export default NewHero;

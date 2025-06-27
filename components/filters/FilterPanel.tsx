@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Filters, Project } from '../../types';
 import { ChevronDownIcon } from '../IconPack';
@@ -9,7 +10,7 @@ interface FilterPanelProps {
 }
 
 const FilterGroup: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
-  <div className="py-4 border-b border-gray-800">
+  <div className="py-4 border-b border-gray-800 last:border-b-0 md:border-b-0">
     <h3 className="text-lg font-semibold text-white mb-3">{title}</h3>
     {children}
   </div>
@@ -46,37 +47,22 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ filters, setFilters, projectD
       return { ...prev, [field]: newValues };
     });
   };
-
-  const handlePriceChange = (field: 'min' | 'max', value: string) => {
-    setFilters(prev => ({
-      ...prev,
-      price: { ...prev.price, [field]: value },
-    }));
-  };
   
   const getUniqueValues = (key: keyof Project) => {
       const valueSet = new Set<string>();
       projectData.forEach(p => {
-          const values = p[key];
-          if(Array.isArray(values)) {
-              values.forEach(v => valueSet.add(v));
-          } else if (typeof values === 'string') {
-              valueSet.add(values);
+          const value = p[key];
+          if (typeof value === 'string' && value.trim()) {
+              valueSet.add(value.trim());
           }
       });
       return Array.from(valueSet).sort();
   };
 
   const options = {
-    unitTypes: getUniqueValues('unitTypes'),
-    cities: getUniqueValues('city'),
-    communities: getUniqueValues('community'),
-    projects: getUniqueValues('name'),
-    status: getUniqueValues('status'),
-    paymentPlans: getUniqueValues('paymentPlans'),
-    amenities: getUniqueValues('amenities'),
-    views: getUniqueValues('views'),
-    offers: getUniqueValues('offers'),
+    countries: getUniqueValues('city'),
+    locations: getUniqueValues('community'),
+    handoverDates: getUniqueValues('handoverDate'),
   };
 
   return (
@@ -103,58 +89,24 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ filters, setFilters, projectD
         className={`transition-all duration-500 ease-in-out overflow-hidden ${isOpen ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}`}
       >
         <div className="p-6 border-t border-gray-800">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8">
-                {/* Price */}
-                <FilterGroup title="Price Range (AED)">
-                  <div className="flex gap-4 items-center">
-                    <input type="number" placeholder="From" value={filters.price.min} onChange={(e) => handlePriceChange('min', e.target.value)} className="w-full bg-gray-800 border-gray-700 rounded-lg p-2 text-white placeholder-gray-500 focus:ring-[#b29a68] focus:border-[#b29a68]" />
-                    <span className="text-gray-500">-</span>
-                    <input type="number" placeholder="To" value={filters.price.max} onChange={(e) => handlePriceChange('max', e.target.value)} className="w-full bg-gray-800 border-gray-700 rounded-lg p-2 text-white placeholder-gray-500 focus:ring-[#b29a68] focus:border-[#b29a68]" />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8">
+                <FilterGroup title="Country">
+                  <div className="flex flex-wrap gap-2">
+                    {options.countries.map(opt => <ToggleButton key={opt} label={opt} isActive={filters.cities.includes(opt)} onClick={() => handleMultiSelect('cities', opt)} />)}
                   </div>
                 </FilterGroup>
                 
-                {/* Unit Type */}
-                <FilterGroup title="Unit Type">
+                <FilterGroup title="Location">
                   <div className="flex flex-wrap gap-2">
-                    {options.unitTypes.map(opt => <ToggleButton key={opt} label={opt} isActive={filters.unitTypes.includes(opt)} onClick={() => handleMultiSelect('unitTypes', opt)} />)}
-                  </div>
-                </FilterGroup>
-                
-                {/* City */}
-                <FilterGroup title="City / Area">
-                  <div className="flex flex-wrap gap-2">
-                    {options.cities.map(opt => <ToggleButton key={opt} label={opt} isActive={filters.cities.includes(opt)} onClick={() => handleMultiSelect('cities', opt)} />)}
+                    {options.locations.map(opt => <ToggleButton key={opt} label={opt} isActive={filters.communities.includes(opt)} onClick={() => handleMultiSelect('communities', opt)} />)}
                   </div>
                 </FilterGroup>
 
-                {/* Status */}
-                <FilterGroup title="Handover Status">
+                <FilterGroup title="Handover Date">
                   <div className="flex flex-wrap gap-2">
-                    {options.status.map(opt => <ToggleButton key={opt} label={opt} isActive={filters.status.includes(opt)} onClick={() => handleMultiSelect('status', opt)} />)}
+                    {options.handoverDates.map(opt => <ToggleButton key={opt} label={opt} isActive={filters.handoverDates.includes(opt)} onClick={() => handleMultiSelect('handoverDates', opt)} />)}
                   </div>
                 </FilterGroup>
-            </div>
-
-            {/* More filters can be revealed here or listed below */}
-            <div className="pt-4 mt-4 border-t border-gray-800">
-              <h3 className="text-lg font-semibold text-white mb-3">More Options</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8">
-                <FilterGroup title="Amenities">
-                  <div className="flex flex-wrap gap-2">
-                    {options.amenities.map(opt => <ToggleButton key={opt} label={opt} isActive={filters.amenities.includes(opt)} onClick={() => handleMultiSelect('amenities', opt)} />)}
-                  </div>
-                </FilterGroup>
-                <FilterGroup title="Views">
-                  <div className="flex flex-wrap gap-2">
-                    {options.views.map(opt => <ToggleButton key={opt} label={opt} isActive={filters.views.includes(opt)} onClick={() => handleMultiSelect('views', opt)} />)}
-                  </div>
-                </FilterGroup>
-                <FilterGroup title="Developer Offers">
-                  <div className="flex flex-wrap gap-2">
-                    {options.offers.map(opt => <ToggleButton key={opt} label={opt} isActive={filters.offers.includes(opt)} onClick={() => handleMultiSelect('offers', opt)} />)}
-                  </div>
-                </FilterGroup>
-              </div>
             </div>
         </div>
       </div>

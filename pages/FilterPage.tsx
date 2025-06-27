@@ -19,11 +19,12 @@ const FilterPage: React.FC = () => {
     amenities: [],
     views: [],
     offers: [],
+    handoverDates: [],
   });
 
   const filteredProjects = useMemo(() => {
     return allProjects.filter(p => {
-      const { price, unitTypes, cities, communities, projects, status, paymentPlans, amenities, views, offers } = filters;
+      const { price, unitTypes, cities, communities, projects, status, paymentPlans, amenities, views, offers, handoverDates } = filters;
       
       const minPrice = price.min ? parseFloat(price.min as string) : 0;
       const maxPrice = price.max ? parseFloat(price.max as string) : Infinity;
@@ -33,6 +34,7 @@ const FilterPage: React.FC = () => {
       if (communities.length && !communities.includes(p.community)) return false;
       if (projects.length && !projects.includes(p.name)) return false;
       if (status.length && !status.includes(p.status)) return false;
+      if (handoverDates.length && !handoverDates.includes(p.handoverDate)) return false;
 
       if (unitTypes.length && !unitTypes.some(ut => p.unitTypes.includes(ut))) return false;
       if (paymentPlans.length && !paymentPlans.some(pp => p.paymentPlans.includes(pp))) return false;

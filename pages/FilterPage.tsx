@@ -11,15 +11,15 @@ const FilterPage: React.FC = () => {
   const [filters, setFilters] = useState<Filters>({
     price: { min: '', max: '' },
     unitTypes: [],
-    cities: [],
-    communities: [],
+    cities: '',
+    communities: '',
     projects: [],
     status: [],
     paymentPlans: [],
     amenities: [],
     views: [],
     offers: [],
-    handoverDates: [],
+    handoverDates: '',
   });
 
   const filteredProjects = useMemo(() => {
@@ -30,12 +30,21 @@ const FilterPage: React.FC = () => {
       const maxPrice = price.max ? parseFloat(price.max as string) : Infinity;
 
       if (p.startingPrice < minPrice || p.startingPrice > maxPrice) return false;
-      if (cities.length && !cities.includes(p.city)) return false;
-      if (communities.length && !communities.includes(p.community)) return false;
+
+      // Updated logic for single-select filters
+      if (cities && p.city !== cities) return false;
+      if (handoverDates && p.handoverDate !== handoverDates) return false;
+      if (communities) {
+          if (communities === 'Rest of locations') {
+              if (p.community && p.community.trim() !== '') return false;
+          } else {
+              if (p.community !== communities) return false;
+          }
+      }
+      
+      // Kept old logic for other potential filters
       if (projects.length && !projects.includes(p.name)) return false;
       if (status.length && !status.includes(p.status)) return false;
-      if (handoverDates.length && !handoverDates.includes(p.handoverDate)) return false;
-
       if (unitTypes.length && !unitTypes.some(ut => p.unitTypes.includes(ut))) return false;
       if (paymentPlans.length && !paymentPlans.some(pp => p.paymentPlans.includes(pp))) return false;
       if (amenities.length && !amenities.every(am => p.amenities.includes(am))) return false;

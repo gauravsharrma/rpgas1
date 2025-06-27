@@ -37,6 +37,7 @@ export interface Filters {
   amenities: string[];
   views: string[];
   offers: string[];
+  handoverDates: string[];
 }
 
 export interface Attraction {

@@ -15,7 +15,7 @@ const LocationIcon: React.FC = () => (
 
 export const NewHero: React.FC = () => {
   const heroStyle = {
-    backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(https://picsum.photos/seed/dubai-skyline/1920/1080)`,
+    backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=2070)`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   };

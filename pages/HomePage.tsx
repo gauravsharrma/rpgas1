@@ -6,7 +6,7 @@ import FilterPanel from '../components/filters/FilterPanel';
 import ProjectGrid from '../components/projects/ProjectGrid';
 import ProjectDetailView from './TaorminaPage'; // Repurposed TaorminaPage as the detail view
 import CtaSection from '../components/shared/CtaSection';
-import NewHero from '../components/NewHero';
+import { NewHero } from '../components/NewHero';
 
 const HomePage: React.FC = () => {
   const [filters, setFilters] = useState<Filters>({

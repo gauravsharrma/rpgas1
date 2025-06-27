@@ -26,10 +26,9 @@ const Header: React.FC = () => {
         </div>
 
         {/* Right side: Contact */}
-        <a href="tel:+971502295179" className="flex items-center space-x-3 text-white hover:text-[#b29a68] transition-colors flex-shrink-0">
+        <a href="tel:+971502295179" className="flex items-center space-x-2 text-white hover:text-[#b29a68] transition-colors flex-shrink-0">
           <PhoneIcon />
-          <span className="hidden sm:inline text-lg font-semibold tracking-wide">971-50-2295179</span>
-          <span className="sm:hidden text-lg font-semibold">Call</span>
+          <span className="text-base sm:text-lg font-semibold tracking-wide">971-50-2295179</span>
         </a>
       </div>
     </div>

@@ -1,7 +1,5 @@
-
 import React from 'react';
 import type { Attraction } from '../types';
-import { LocationPinIcon } from './IconPack';
 
 const AttractionCard: React.FC<{ item: Attraction }> = ({ item }) => (
   <div className="flex-shrink-0 w-48 bg-gray-800 p-6 rounded-lg flex flex-col items-center justify-center text-center transition-transform hover:scale-105 hover:bg-gray-700">

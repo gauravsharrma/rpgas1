@@ -56,14 +56,24 @@ export const TagIcon: React.FC = () => (
 export const ChevronDownIcon: React.FC = () => (
     <svg {...iconProps} className="w-5 h-5 ml-2 -mr-1 text-gray-400"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
 );
+
+// Elegant, solid PhoneIcon to prevent clipping issues
 export const PhoneIcon: React.FC = () => (
-    <svg {...iconProps}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.211-.992-.58-1.356l-2.281-2.281c-.37-.37-.896-.58-1.437-.58H16.5a2.25 2.25 0 00-2.25 2.25v1.5m1.5-4.5l-2.25-2.25" /></svg>
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        className="w-5 h-5"
+    >
+        <path
+        fillRule="evenodd"
+        d="M1.5 4.5a3 3 0 013-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 01-1.262 2.331l-2.257.828a1.5 1.5 0 00-1.09 1.828l.94 3.762a1.5 1.5 0 001.828 1.09l2.257-.828a1.875 1.875 0 012.331 1.262l4.423 1.105c.834.209 1.42.959 1.42 1.82v1.372a3 3 0 01-3 3h-1.372c-8.158 0-14.803-6.645-14.803-14.803V4.5z"
+        clipRule="evenodd"
+        />
+    </svg>
 );
 
 // Added Icons
-export const LocationPinIcon: React.FC = () => (
-    <svg {...iconProps}><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
-);
 export const BrochureIcon: React.FC = () => (
   <svg {...iconProps}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v11.494m-5.25-11.494v11.494M17.25 6.253v11.494M3.75 6.253v11.494M20.25 12H3.75" /></svg>
 );
